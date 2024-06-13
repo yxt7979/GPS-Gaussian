@@ -68,6 +68,9 @@ python test_real_data.py \
 --src_view 0 1 \
 --ratio=0.5
 ```
+```
+python test_real_data.py --test_data_root /hdddata/h3011887/real_data --ckpt_path /home/h3011887/GPS-Gaussian/experiments/GPS-GS_stage2_0612/ckpt/GPS-GS_stage2_final.pth --src_view 0 1 --ratio=0.5
+```
 
 - Freeview rendering: run the following code to interpolate freeview between source views, and modify the ```novel_view_nums``` to set a specific number of novel viewpoints.
 ```
@@ -77,6 +80,9 @@ python test_view_interp.py \
 --novel_view_nums 5
 ```
 
+```
+python test_view_interp.py --test_data_root /hdddata/h3011887/Thuman2.0/val --ckpt_path /home/h3011887/GPS-Gaussian/experiments/GPS-GS_stage2_0612/ckpt/GPS-GS_stage2_final.pth --novel_view_nums 5
+```
 # Citation
 
 If you find this code useful for your research, please consider citing:

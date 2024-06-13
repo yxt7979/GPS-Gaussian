@@ -62,7 +62,7 @@ class Trainer:
             #  Raft Stereo + GS Regresser
             data, flow_loss, metrics = self.model(data, is_train=True)
             #  Gaussian Render
-            data = pts2render(data, bg_color=self.cfg.dataset.bg_color)
+            data = pts2render(data, bg_color=self.cfg.dataset.bg_color, use_pred_rgb=self.cfg.change.use_pred_rgb)
 
             render_novel = data['novel_view']['img_pred']
             gt_novel = data['novel_view']['img'].cuda()
@@ -186,7 +186,7 @@ if __name__ == '__main__':
                         format='%(asctime)s %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s')
 
     cfg = config()
-    cfg.load("config/stage2.yaml")
+    cfg.load("config/stage2_usepredrgb.yaml")
     cfg = cfg.get_cfg()
 
     cfg.defrost()

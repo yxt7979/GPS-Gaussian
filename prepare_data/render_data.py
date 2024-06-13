@@ -212,8 +212,8 @@ if __name__ == '__main__':
     cam_nums = 16
     scene_radius = 2.0
     res = (1024, 1024)
-    thuman_root = 'PATH/TO/THuman2.0'
-    save_root = 'PATH/TO/SAVE/RENDERED/DATA'
+    thuman_root = '/hdddata/h3011887/Thuman2.0'
+    save_root = '/hdddata/h3011887/GPSgs/Renderdata'
     renderer = StaticRenderer()
 
     for phase in ['train', 'val']:

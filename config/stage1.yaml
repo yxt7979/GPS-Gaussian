@@ -9,7 +9,7 @@ num_steps: 40000
 dataset:
   source_id: [0, 1]
   use_processed_data: True
-  data_root: 'PATH/TO/RENDER_DATA'
+  data_root: '/hdddata/h3011887/Thuman2.0'
 
 raft:
   mixed_precision: False

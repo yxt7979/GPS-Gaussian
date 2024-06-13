@@ -3,7 +3,7 @@ import torch
 from gaussian_renderer import render
 
 
-def pts2render(data, bg_color):
+def pts2render(data, bg_color, use_pred_rgb = False):
     bs = data['lmain']['img'].shape[0]
     render_novel_list = []
     for i in range(bs):
@@ -15,7 +15,10 @@ def pts2render(data, bg_color):
         for view in ['lmain', 'rmain']:
             valid_i = data[view]['pts_valid'][i, :]
             xyz_i = data[view]['xyz'][i, :, :]
-            rgb_i = data[view]['img'][i, :, :, :].permute(1, 2, 0).view(-1, 3)
+            if use_pred_rgb: 
+                rgb_i = data[view]['rgb_maps'][i, :, :, :].permute(1, 2, 0).view(-1, 3)
+            else:
+                rgb_i = data[view]['img'][i, :, :, :].permute(1, 2, 0).view(-1, 3)
             rot_i = data[view]['rot_maps'][i, :, :, :].permute(1, 2, 0).view(-1, 4)
             scale_i = data[view]['scale_maps'][i, :, :, :].permute(1, 2, 0).view(-1, 3)
             opacity_i = data[view]['opacity_maps'][i, :, :, :].permute(1, 2, 0).view(-1, 1)

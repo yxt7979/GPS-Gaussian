@@ -5,8 +5,9 @@ from core.extractor import UnetExtractor, ResidualBlock
 
 
 class GSRegresser(nn.Module):
-    def __init__(self, cfg, rgb_dim=3, depth_dim=1, norm_fn='group'):
+    def __init__(self, cfg, rgb_dim=3, depth_dim=1, use_pred_rgb=False, norm_fn='group'):
         super().__init__()
+        self.use_pred_rgb = use_pred_rgb
         self.rgb_dims = cfg.raft.encoder_dims
         self.depth_dims = cfg.gsnet.encoder_dims
         self.decoder_dims = cfg.gsnet.decoder_dims
@@ -48,6 +49,13 @@ class GSRegresser(nn.Module):
             nn.Conv2d(self.head_dim, 1, kernel_size=1),
             nn.Sigmoid()
         )
+        if use_pred_rgb: 
+            self.rgb_head = nn.Sequential(
+                nn.Conv2d(self.head_dim, self.head_dim, kernel_size=3, padding=1),
+                nn.ReLU(inplace=True),
+                nn.Conv2d(self.head_dim, 3, kernel_size=1),
+                nn.Sigmoid()
+            )
 
     def forward(self, img, depth, img_feat):
         img_feat1, img_feat2, img_feat3 = img_feat
@@ -63,7 +71,7 @@ class GSRegresser(nn.Module):
         up2 = self.up(up2)
         up1 = self.decoder1(torch.cat([up2, feat1], dim=1))
 
-        up1 = self.up(up1)
+        up1 = self.up(up1) # torch.Size([4, 48, 1024, 1024])
         out = torch.cat([up1, img, depth], dim=1)
         out = self.out_conv(out)
         out = self.out_relu(out)
@@ -77,5 +85,9 @@ class GSRegresser(nn.Module):
 
         # opacity head
         opacity_out = self.opacity_head(out)
-
+        
+        if self.use_pred_rgb:
+            # rgb head
+            rgb_out = self.rgb_head(out)
+            return rot_out, scale_out, opacity_out, rgb_out
         return rot_out, scale_out, opacity_out

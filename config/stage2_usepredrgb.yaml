@@ -1,4 +1,4 @@
-name: 'GPS-GS_stage2'
+name: 'GPS-GS_stage2_usepredrgb'
 
 stage1_ckpt: '/home/h3011887/GPS-Gaussian/experiments/GPS-GS_stage1_0611/ckpt/GPS-GS_stage1_final.pth'
 restore_ckpt: None
@@ -30,3 +30,6 @@ gsnet:
 record:
   loss_freq: 5000
   eval_freq: 5000
+
+change:
+  use_pred_rgb: True

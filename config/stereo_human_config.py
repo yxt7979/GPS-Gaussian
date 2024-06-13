@@ -51,6 +51,10 @@ class ConfigStereoHuman:
         self.cfg.record.file_path = None
         self.cfg.record.loss_freq = 0
         self.cfg.record.eval_freq = 0
+        
+        self.cfg.change = CN()
+        self.cfg.change.use_pred_rgb = False
+        self.cfg.change.use_gaussian_feature = False
 
     def get_cfg(self):
         return self.cfg.clone()
